@@ -1,7 +1,6 @@
 {
     "name": "reecem/mocker",
     "description": "Mock class constructor args based on the reflection class",
-    "type": "package",
     "require": {
         "illuminate/support": "^5.8",
         "illuminate/filesystem": "^5.8"
