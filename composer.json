@@ -17,7 +17,7 @@
     "minimum-stability": "dev",
     "autoload": {
         "psr-4": {
-            "reecem\\mocker\\": "src/"
+            "ReeceM\\Mocker\\": "src/"
         }
     }
 }
