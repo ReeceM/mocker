@@ -1,4 +1,8 @@
 # Reflection Mocker
+<p align="center">
+<a href="https://packagist.org/packages/reecem/mocker"><img src="https://poser.pugx.org/reecem/mocker/v/stable" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/reecem/mocker"><img src="https://poser.pugx.org/reecem/mocker/license" alt="License"></a>
+</p>
 
 This package is initially made to fi an issue on the MailEclipse package, but improvements are welcome.
 It currently is probably stupid simple, but deals with the one job of reading a file and mocking it.
@@ -25,7 +29,9 @@ You can install the package via composer:
 ```bash
 composer require reecem/mocker
 ```
+# Requirements 
 
+- Laravel ^5.6 (min)
 
 ## Usage
 
