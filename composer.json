@@ -2,8 +2,8 @@
     "name": "reecem/mocker",
     "description": "Mock class constructor args based on the reflection class",
     "require": {
-        "illuminate/support": "^5.8",
-        "illuminate/filesystem": "^5.8"
+        "illuminate/support": "^5.6",
+        "illuminate/filesystem": "^5.6"
     },
     "license": "MIT",
     "authors": [
