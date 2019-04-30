@@ -27,7 +27,7 @@ composer require reecem/mocker
 ```
 
 
-## Useage
+## Usage
 
 ```php
 
