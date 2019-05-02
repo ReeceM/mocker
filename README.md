@@ -2,6 +2,7 @@
 <p align="center">
 <a href="https://packagist.org/packages/reecem/mocker"><img src="https://poser.pugx.org/reecem/mocker/v/stable" alt="Latest Stable Version"></a>
 <a href="https://packagist.org/packages/reecem/mocker"><img src="https://poser.pugx.org/reecem/mocker/license" alt="License"></a>
+<a href="https://packagist.org/packages/reecem/mocker"><img src="https://poser.pugx.org/reecem/mocker/downloads" alt="Downloads"></a>
 </p>
 
 This package is initially made to fi an issue on the MailEclipse package, but improvements are welcome.
@@ -29,7 +30,7 @@ You can install the package via composer:
 ```bash
 composer require reecem/mocker
 ```
-# Requirements 
+## Requirements 
 
 - Laravel ^5.6 (min)
 
@@ -54,3 +55,15 @@ $mock = new ReflectionMockery(new \ReflectionClass('\App\User'));
 {{ $mock->get('somethingNotInUser') }}
 
 ```
+
+## todo
+
+- [ ] Add functionality to account for `$this->internal = $param;` searching so it works later on in the code
+- [ ] Add a translation file for mocked values when testing to give a translated result for previews
+
+## Support
+Consider supporting some code if it is useful to you :smile:
+
+<p align="center">
+<a href='http://bit.ly/2J4ZPBM' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://az743702.vo.msecnd.net/cdn/kofi4.png?v=2' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
+</p>
