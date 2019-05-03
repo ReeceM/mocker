@@ -41,8 +41,9 @@ class Mocked {
 
     private static $GET_METHOD = "__get";
     private static $SET_METHOD = "__set";
+
     /*
-     * 
+     * The mocked constructor
      * @param string|array $base the name of the arg/object (buttery biscuit base)
      * @param \ReeceM\Mocker\Utils\VarStore $store singleton variable storage
      * @param mixed $previous the base of the calling class
@@ -52,6 +53,7 @@ class Mocked {
         $this->previous = $previous;
         $this->store    = $store;
         $this->base     = $base;
+        
         if(is_string($base)) {
             $this->base     = [['args' => [$base], 'function' => static::$GET_METHOD]];
         }
@@ -69,7 +71,7 @@ class Mocked {
         try {
             $args = Arr::get($this->base[0], 'args', []); // only one if its a get command
             $function = Arr::get($this->base[0], 'function', '__get');
-            // $type = Arr::get($this->base[0], 'type', '');
+            // $type = Arr::get($this->base[0], 'type', ''); '->' / '::'
             if($function == self::$GET_METHOD) 
             {
                 // merge the preceding calls with this one
@@ -120,12 +122,17 @@ class Mocked {
     }
 
     /**
+     * @todo implement __callStatic
+     */
+
+    /**
      * Return a string of the called object
      * would be at the end of the whole thing
+     * @param void
+     * @return string
      */
     public function __toString()
     {        
-
         $calledValue = $this->store->memoized[array_reverse($this->trace)[0]] ?? null;
         
         if($calledValue != null) {
