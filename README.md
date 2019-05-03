@@ -1,5 +1,11 @@
 # Reflection Mocker
 <p align="center">
+<a href="https://codecov.io/gh/ReeceM/mocker">
+  <img src="https://codecov.io/gh/ReeceM/mocker/branch/master/graph/badge.svg" />
+</a>
+<a href="https://travis-ci.com/ReeceM/mocker">
+  <img src="https://travis-ci.com/ReeceM/mocker.svg?branch=master" />
+</a>
 <a href="https://packagist.org/packages/reecem/mocker"><img src="https://poser.pugx.org/reecem/mocker/v/stable" alt="Latest Stable Version"></a>
 <a href="https://packagist.org/packages/reecem/mocker"><img src="https://poser.pugx.org/reecem/mocker/license" alt="License"></a>
 <a href="https://packagist.org/packages/reecem/mocker"><img src="https://poser.pugx.org/reecem/mocker/downloads" alt="Downloads"></a>
