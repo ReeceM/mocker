@@ -26,7 +26,7 @@ install:
   - if [[ $SETUP = 'stable' ]]; then travis_retry composer update --prefer-dist --no-interaction --prefer-stable --no-suggest; fi
   - if [[ $SETUP = 'lowest' ]]; then travis_retry composer update --prefer-dist --no-interaction --prefer-lowest --prefer-stable --no-suggest; fi
 
-script: vendor/bin/phpunit --coverage-clover=coverage.xml
+script: vendor/bin/phpunit --coverage-clover=coverage.xml --coverage-text
 
 after_success:
     - bash <(curl -s https://codecov.io/bash)
