@@ -20,7 +20,8 @@ class ReflectionMockeryTest extends TestCase
 
         $instance = $class->newInstanceArgs($mock->all());
         // run the invoke function to use the instantiated data
-        $this->assertSame('data->complex->var->that->is->set->too => Hello World', $instance());
+        // the result is a collection instance
+        $this->assertSame('data->complex->var->that->is->set->too => ["Hello World"]', $instance());
     }
     /**
      * A basic test example.
@@ -35,7 +36,7 @@ class ReflectionMockeryTest extends TestCase
 
         $instance = $class->newInstanceArgs($mock->all());
         // run the invoke function to use the instantiated data
-        $this->assertSame('data->complex->var->that->is->set->too => Hello World', $instance());
+        $this->assertSame('data->complex->var->that->is->set->too => ["Hello World"]', $instance());
     }
     /**
      * A basic test example.

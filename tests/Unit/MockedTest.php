@@ -17,11 +17,11 @@ class MockedTest extends TestCase
     {
         $mocked = new Mocked('user', VarStore::singleton());
         // what would be set in a class when using Mocked::class
-        $mocked->name->class = 'test';
+        $mocked->name->class = '["test"]';
 
-        $this->assertContains('=> test', (string)$mocked->name->class);
-        $this->assertSame('user->name->class => test', (string)$mocked->name->class);
-        $this->assertNotSame('user->name->class => test', (string)$mocked->name->class->data);
+        $this->assertContains('=> ["test"]', (string)$mocked->name->class);
+        $this->assertSame('user->name->class => ["test"]', (string)$mocked->name->class);
+        $this->assertNotSame('user->name->class => ["test"]', (string)$mocked->name->class->data);
     }
     /**
      * Test if the un-set mocked returns the calls chained
