@@ -102,6 +102,9 @@ class Mocked {
 
     public function __get($name)
     {
+        /**
+         * @todo maybe return the value of the variable if it has been set and has a value
+         */
         return new Mocked(debug_backtrace(false, 1), $this->store, $this->trace);
     }
 
@@ -136,7 +139,7 @@ class Mocked {
         $calledValue = $this->store->memoized[array_reverse($this->trace)[0]] ?? null;
         
         if($calledValue != null) {
-            return implode("->", $this->trace) . ' => ' . $calledValue;
+            return implode("->", $this->trace) . ' => ' . collect($calledValue);
         }
 
         return implode("->", $this->trace);
