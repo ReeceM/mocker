@@ -1,11 +1,17 @@
 # Reflection Mocker
 <p align="center">
+<a href="https://codecov.io/gh/ReeceM/mocker">
+  <img src="https://codecov.io/gh/ReeceM/mocker/branch/master/graph/badge.svg" />
+</a>
+<a href="https://travis-ci.com/ReeceM/mocker">
+  <img src="https://travis-ci.com/ReeceM/mocker.svg?branch=master" />
+</a>
 <a href="https://packagist.org/packages/reecem/mocker"><img src="https://poser.pugx.org/reecem/mocker/v/stable" alt="Latest Stable Version"></a>
 <a href="https://packagist.org/packages/reecem/mocker"><img src="https://poser.pugx.org/reecem/mocker/license" alt="License"></a>
 <a href="https://packagist.org/packages/reecem/mocker"><img src="https://poser.pugx.org/reecem/mocker/downloads" alt="Downloads"></a>
 </p>
 
-This package is initially made to fi an issue on the MailEclipse package, but improvements are welcome.
+This package is initially made to for an issue on the MailEclipse package, but improvements are welcome.
 It currently is probably stupid simple, but deals with the one job of reading a file and mocking it.
 
 > Generate a mocked instance of the un-typed params in a __construct() method
@@ -53,6 +59,13 @@ $mock = new ReflectionMockery(new \ReflectionClass('\App\User'));
  * Use call a variable from the class that don't exist
  */
 {{ $mock->get('somethingNotInUser') }}
+{{ $mock->somethingNotInUser }}
+
+// both would return 
+
+"mock->somethingNotInUser"
+// if something was set in user
+'mock->somethingNotInUser => ["value that set"]'
 
 ```
 

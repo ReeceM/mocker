@@ -2,6 +2,8 @@
 
 namespace ReeceM\Mocker;
 
+use ReeceM\Mocker\Mocked;
+use ReeceM\Mocker\Utils\VarStore;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Arr;
 
@@ -20,7 +22,7 @@ class ReflectionMockery {
     /**
      * all the args for the class
      */
-    public $args;
+    public $__args;
 
     /**
      * Construct the Reflection Mocker Class
@@ -44,36 +46,54 @@ class ReflectionMockery {
         $this->file = (new Filesystem())->get($reflection->getFileName());
         $this->reflection = $reflection;
 
-        $this->extractWantedArgs();
+        $this->reflectionExtractWantedArgs();
     }
     
-    public function newClass(string $name = 'Mocked') : Mocked
+    public function reflectionNewClass(string $name = 'ReflectionMockery') : Mocked
     {    
-        return new Mocked($name);   
+        return new Mocked($name, VarStore::singleton());
     }
     
-    public function extractWantedArgs()
+    public function reflectionExtractWantedArgs()
     {
         $params = $this->reflection->getConstructor()->getParameters();
         
         foreach($params as $param) {
             $matches = [];
             $argName = $param->name;
-            $result = $this->newClass($argName);
-            preg_match_all('/(?<matched>\$' . $argName . '->.*[^;\n])/', $this->file, $matches);
-            
+            $result = $this->reflectionNewClass($argName);
+            // preg_match_all('/(?<matched>\$' . $argName . '->.*[^;\n])/', $this->file, $matches);
+            preg_match_all('/(?<matched>\$' . $argName . '->.+?\b)/', $this->file, $matches);
+
             foreach ($matches['matched'] as $key) {
                 $name = preg_replace('/(\$' . $argName . '->)/', '', $key);
-                $result->$name = $this->newClass($argName);
+                $result->$name = $this->reflectionNewClass($argName);
             }
 
-            Arr::set($this->args, $argName, $result);
+            Arr::set($this->__args, $argName, $result);
         }
     }
     
-    public function get($arg = null)
+    public function __get($value) : Mocked
     {
-        return Arr::get($this->args, $arg, $this->newClass());
+        if ($value == '__args') {
+            return $this->__args;
+        }
+        return Arr::get($this->__args, $value, $this->reflectionNewClass());
+    }
+    
+    public function get($value) : Mocked
+    {
+        return Arr::get($this->__args, $value, $this->reflectionNewClass());
     }
 
+    /**
+     * return an array of all the arguments found
+     * @param array $exclude
+     * @return array
+     */
+    public function all($exclude = []) : array
+    {
+        return Arr::except($this->__args, $exclude);
+    }
 }
