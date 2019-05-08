@@ -103,10 +103,12 @@ class Mocked extends \ArrayObject{
         $memorable = $this->store->memoized;
 
         $memorable[$key] = $value;
+
+        if($value instanceof self) {
+            $this->store->memoized = array_merge($this->store->memoized, $memorable);
+        }
         
-        $this->vars = array_merge($this->store->memoized, $memorable);
-        
-        $this->store->memoized = $this->vars;
+        $this->store->memoized = array_merge($memorable, $this->store->memoized);
     }
 
     /**
