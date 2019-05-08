@@ -66,7 +66,7 @@ class ReflectionMockeryTest extends TestCase
             $this->assertTrue(true);
         } 
         try { 
-            $mocked = new ReflectionMockery(null);
+            $mocked = new ReflectionMockery('');
         } catch (\Exception $e) {
             $this->assertTrue(true);
         } 

@@ -62,4 +62,23 @@ class MockedTest extends TestCase
 
     }
 
+    /**
+     * test if the arrayobject will work in foreach statements
+     * @test
+     * @depends mocked_handles_arrays_test
+     * @return void
+     */
+    public function array_object_loops_test()
+    {
+        // give us a clean store;
+        VarStore::destroy();
+        $mocked = new Mocked('arrays', VarStore::singleton());
+        $mocked['variable'] = 'a little string of tests is a list';
+        $mocked['another']  = 'a little string of tests is a list';
+
+        foreach ($mocked as $key => $value) {
+            $this->assertTrue(array_key_exists($key, $mocked->__getStore()), 'Key was not set in the mocked array');
+        }
+
+    }
 }
