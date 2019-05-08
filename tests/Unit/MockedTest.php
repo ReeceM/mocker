@@ -15,6 +15,8 @@ class MockedTest extends TestCase
      */
     public function mocked_returns_set_value_test()
     {
+        // give us a clean store;
+        VarStore::destroy();
         $mocked = new Mocked('user', VarStore::singleton());
         // what would be set in a class when using Mocked::class
         $mocked->name->class = 'test';
@@ -30,13 +32,34 @@ class MockedTest extends TestCase
      */
     public function mocked_returns_chained_only_test()
     {
+        // give us a clean store;
+        VarStore::destroy();
         $mocked = new Mocked('user', VarStore::singleton());
 
         $this->assertSame('user', (string)$mocked);
         $this->assertSame('user->name', (string)$mocked->name);
-        // singleton persists
-        $this->assertNotSame('user->name->class', (string)$mocked->name->class);
         $this->assertSame('user->name->class->data', (string)$mocked->name->class->data);
+    }
+
+    /**
+     * test to see if we can manipulate arrays as objects as well as an array
+     * @test
+     * @return void
+     */
+    public function mocked_handles_arrays_test()
+    {
+        // give us a clean store;
+        VarStore::destroy();
+        $mocked = new Mocked('arrays', VarStore::singleton());
+
+        $mocked['variable']['on']['an_array'] = ['new' => 'array'];
+
+        $this->assertIsArray($mocked['variable']['on']['an_array']);
+        $this->assertArrayHasKey('variable', $mocked);
+        $this->assertArrayHasKey('on', $mocked['variable']);
+        $this->assertArrayHasKey('an_array', $mocked['variable']['on']);
+        $this->assertArrayHasKey('key_was_not_entered', $mocked['key_was_not_entered']);
+
     }
 
 }
