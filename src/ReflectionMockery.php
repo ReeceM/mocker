@@ -76,9 +76,6 @@ class ReflectionMockery {
     
     public function __get($value) : Mocked
     {
-        if ($value == '__args') {
-            return $this->__args;
-        }
         return Arr::get($this->__args, $value, $this->reflectionNewClass());
     }
     
