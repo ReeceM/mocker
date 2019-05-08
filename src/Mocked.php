@@ -4,13 +4,20 @@ namespace ReeceM\Mocker;
 
 use Illuminate\Support\Arr;
 use ReeceM\Mocker\Utils\VarStore;
+use ReeceM\Mocker\Traits\ArrayMagic;
+use ReeceM\Mocker\Traits\ObjectMagic;
 
 /**
  * the default mocked class that has dynamic variable names and setting of them too
  * this is what makes tha fake objects that result from reading un-typed params
  */
-class Mocked {
+class Mocked extends \ArrayObject{
 
+    /**
+     * 
+     * Array related methods
+     */
+    use ArrayMagic, ObjectMagic;
     /**
      * the base array from the new call
      */
@@ -77,11 +84,13 @@ class Mocked {
                 // merge the preceding calls with this one
                 array_push($this->previous, $args[0]);    
                 $this->trace = $this->previous;
-            } else {
+
+            } else if($function == self::$SET_METHOD) {
                 array_push($this->previous, $args[0]);
                 $this->trace = $this->previous;
                 $toSet = $args[1];
             }
+
             return $this->setMockeryVariables($args[0], $toSet);
 
         } catch (\Exception $th) {
@@ -95,38 +104,10 @@ class Mocked {
 
         $memorable[$key] = $value;
         
-        $this->vars = array_merge($memorable, $this->store->memoized);
+        $this->vars = array_merge($this->store->memoized, $memorable);
         
         $this->store->memoized = $this->vars;
     }
-
-    public function __get($name)
-    {
-        /**
-         * @todo maybe return the value of the variable if it has been set and has a value
-         */
-        return new Mocked(debug_backtrace(false, 1), $this->store, $this->trace);
-    }
-
-    /**
-     * Set a method to the calls
-     */
-    public function __call($name, $arguments)
-    {
-        // return new Mocked()
-    }
-
-    /**
-     * set the value of something inside the class
-     */
-    public function __set($name, $value)
-    { 
-        return new Mocked(debug_backtrace(false, 1), $this->store, $this->trace);
-    }
-
-    /**
-     * @todo implement __callStatic
-     */
 
     /**
      * Return a string of the called object
@@ -137,7 +118,7 @@ class Mocked {
     public function __toString()
     {        
         $calledValue = $this->store->memoized[array_reverse($this->trace)[0]] ?? null;
-        
+
         if($calledValue != null) {
             return implode("->", $this->trace) . ' => ' . collect($calledValue);
         }
