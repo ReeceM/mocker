@@ -60,7 +60,7 @@ class MockedArray extends ArrayObject{
     public function getIterator() {
         return new ArrayIterator($this->container);
     }
-    
+
 
     public function offsetSet($offset, $value) {
         if (is_null($offset)) {
@@ -118,6 +118,18 @@ class MockedArray extends ArrayObject{
     {
         
     }
+
+    private function arrayTrace()
+    {
+        // one up...
+        $selfTrace = debug_backtrace(false, 2);
+        return [
+            'function'  => $selfTrace[1]['function'] == 'offsetGet' ? '__get' : '__set',
+            'args'      => $selfTrace[1]['args'],
+            'type'      => $selfTrace[1]['type']
+        ];
+        // return new Mocked(debug_backtrace(false, 1), $this->store, $this->trace);
+    }
 }
 
 
@@ -131,12 +143,11 @@ foreach ($obj['list'] as $key => $value) {
     echo $value . PHP_EOL;
 }
 
-// $obj['test'] = ['key' => 'value'];
-// $obj['tesffo'] = 'hello';
-// echo json_encode($obj) . PHP_EOL;
-// echo $obj['tesffo'] . PHP_EOL;
-// var_export($obj->__toArray());
+$obj['test'] = ['key' => 'value'];
+$obj['tesffo'] = 'hello';
+echo json_encode($obj) . PHP_EOL;
+echo $obj['tesffo'] . PHP_EOL;
+var_export($obj->__toArray());
 
-
-// echo $obj['address']['street']->OBJECT . PHP_EOL;
+echo $obj['address']['street']->OBJECT . PHP_EOL;
 
