@@ -2,8 +2,6 @@
 
 namespace ReeceM\Mocker\Traits;
 
-use ReeceM\Mocker\Mocked;
-
 /**
  * Contains the magic methods for object related calls 
  * 
@@ -21,7 +19,7 @@ trait ObjectMagic {
         /**
          * @todo maybe return the value of the variable if it has been set and has a value
          */
-        return new Mocked(debug_backtrace(false, 1), $this->store, $this->trace);
+        return new self(debug_backtrace(false, 1), $this->store, $this->trace);
     }
 
     /**
@@ -29,7 +27,7 @@ trait ObjectMagic {
      */
     public function __call($name, $arguments)
     {
-        // return new Mocked()
+        // return new self()
     }
 
     /**
@@ -37,7 +35,7 @@ trait ObjectMagic {
      */
     public function __set($name, $value)
     { 
-        return new Mocked(debug_backtrace(false, 1), $this->store, $this->trace);
+        return new self(debug_backtrace(false, 1), $this->store, $this->trace);
     }
 
 }

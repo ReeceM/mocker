@@ -2,8 +2,6 @@
 
 namespace ReeceM\Mocker\Traits;
 
-use ReeceM\Mocker\Mocked;
-
 trait ArrayMagic {
 
     /**
@@ -40,8 +38,8 @@ trait ArrayMagic {
     public function offsetGet($offset) {
         
         return isset($this->store->memoized[$offset]) ? 
-                $this->store->memoized[$offset] : 
-                $this->offsetSet($offset, new Mocked($this->arrayTrace(), $this->store, $this->trace));
+                $this->store->memoized[$offset] :
+                $this->offsetSet($offset, new self($this->arrayTrace(), $this->store, $this->trace));
     }
         
     /**
