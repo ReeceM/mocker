@@ -11,7 +11,7 @@ class VarStore {
      * The memorised list of args
      * @var array $memoized
      */
-    protected $memoized = [];
+    protected $memoized = array();
 
     // Hold the class instance.
     private static $instance = null;
