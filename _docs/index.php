@@ -150,4 +150,3 @@ echo $obj['tesffo'] . PHP_EOL;
 var_export($obj->__toArray());
 
 echo $obj['address']['street']->OBJECT . PHP_EOL;
-
