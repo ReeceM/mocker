@@ -118,7 +118,7 @@ class Mocked extends \ArrayObject{
      * @return string
      */
     public function __toString()
-    {        
+    {
         $calledValue = $this->store->memoized[array_reverse($this->trace)[0]] ?? null;
 
         if($calledValue != null) {
@@ -126,5 +126,10 @@ class Mocked extends \ArrayObject{
         }
 
         return implode("->", $this->trace);
+    }
+    
+    public function __getStore()
+    {
+        return $this->store->memoized;
     }
 }
