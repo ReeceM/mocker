@@ -7,7 +7,8 @@ use ReeceM\Mocker\Utils\VarStore;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Arr;
 
-class ReflectionMockery {
+class ReflectionMockery
+{
     /**
      * The File from the reflection result
      * @var string $file
@@ -26,14 +27,14 @@ class ReflectionMockery {
 
     /**
      * Construct the Reflection Mocker Class
-     * 
+     *
      * @param string|\ReflectionClass $reflect namespace or Reflection
      */
     public function __construct($reflect)
     {
-        if($reflect instanceof \ReflectionClass) {
+        if ($reflect instanceof \ReflectionClass) {
             $reflection = $reflect;
-        } else if (is_string($reflect)) {
+        } elseif (is_string($reflect)) {
             try {
                 $reflection = new \ReflectionClass($reflect);
             } catch (\Exception $th) {
@@ -48,17 +49,17 @@ class ReflectionMockery {
 
         $this->reflectionExtractWantedArgs();
     }
-    
-    public function reflectionNewClass(string $name = 'ReflectionMockery') : Mocked
-    {    
+
+    public function reflectionNewClass(string $name = 'ReflectionMockery'): Mocked
+    {
         return new Mocked($name, VarStore::singleton());
     }
-    
+
     public function reflectionExtractWantedArgs()
     {
         $params = $this->reflection->getConstructor()->getParameters();
-        
-        foreach($params as $param) {
+
+        foreach ($params as $param) {
             $matches = [];
             $argName = $param->name;
             $result = $this->reflectionNewClass($argName);
@@ -73,13 +74,13 @@ class ReflectionMockery {
             Arr::set($this->__args, $argName, $result);
         }
     }
-    
-    public function __get($value) : Mocked
+
+    public function __get($value): Mocked
     {
         return Arr::get($this->__args, $value, $this->reflectionNewClass());
     }
-    
-    public function get($value) : Mocked
+
+    public function get($value): Mocked
     {
         return Arr::get($this->__args, $value, $this->reflectionNewClass());
     }
@@ -89,7 +90,7 @@ class ReflectionMockery {
      * @param array $exclude
      * @return array
      */
-    public function all($exclude = []) : array
+    public function all($exclude = []): array
     {
         return Arr::except($this->__args, $exclude);
     }

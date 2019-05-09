@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace ReeceM\Mocker;
 
@@ -11,10 +11,11 @@ use ReeceM\Mocker\Traits\ObjectMagic;
  * the default mocked class that has dynamic variable names and setting of them too
  * this is what makes tha fake objects that result from reading un-typed params
  */
-class Mocked extends \ArrayObject{
+class Mocked extends \ArrayObject
+{
 
     /**
-     * 
+     *
      * Array related methods
      */
     use ArrayMagic, ObjectMagic;
@@ -30,7 +31,7 @@ class Mocked extends \ArrayObject{
 
     /**
      * vars set
-     * @var array $vars 
+     * @var array $vars
      */
     private $vars;
 
@@ -54,14 +55,14 @@ class Mocked extends \ArrayObject{
      * @param string|array $base the name of the arg/object (buttery biscuit base)
      * @param \ReeceM\Mocker\Utils\VarStore $store singleton variable storage
      * @param mixed $previous the base of the calling class
-     */ 
+     */
     public function __construct($base, VarStore $store, $previous = [])
     {
         $this->previous = $previous;
         $this->store    = $store;
         $this->base     = $base;
-        
-        if(is_string($base)) {
+
+        if (is_string($base)) {
             $this->base     = [['args' => [$base], 'function' => static::$GET_METHOD]];
         }
 
@@ -79,20 +80,17 @@ class Mocked extends \ArrayObject{
             $args = Arr::get($this->base[0], 'args', []); // only one if its a get command
             $function = Arr::get($this->base[0], 'function', '__get');
             // $type = Arr::get($this->base[0], 'type', ''); '->' / '::'
-            if($function == self::$GET_METHOD) 
-            {
+            if ($function == self::$GET_METHOD) {
                 // merge the preceding calls with this one
-                array_push($this->previous, $args[0]);    
+                array_push($this->previous, $args[0]);
                 $this->trace = $this->previous;
-
-            } else if($function == self::$SET_METHOD) {
+            } elseif ($function == self::$SET_METHOD) {
                 array_push($this->previous, $args[0]);
                 $this->trace = $this->previous;
                 $toSet = $args[1];
             }
 
             return $this->setMockeryVariables($args[0], $toSet);
-
         } catch (\Exception $th) {
             throw $th;
         }
@@ -104,10 +102,10 @@ class Mocked extends \ArrayObject{
 
         $memorable[$key] = $value;
 
-        if($value instanceof self) {
+        if ($value instanceof self) {
             $this->store->memoized = array_merge($this->store->memoized, $memorable);
         }
-        
+
         $this->store->memoized = array_merge($memorable, $this->store->memoized);
     }
 
@@ -121,13 +119,13 @@ class Mocked extends \ArrayObject{
     {
         $calledValue = $this->store->memoized[array_reverse($this->trace)[0]] ?? null;
 
-        if($calledValue != null) {
+        if ($calledValue != null) {
             return implode("->", $this->trace) . ' => ' . collect($calledValue);
         }
 
         return implode("->", $this->trace);
     }
-    
+
     public function __getStore()
     {
         return $this->store->memoized;

@@ -3,12 +3,13 @@
 namespace ReeceM\Mocker\Traits;
 
 /**
- * Contains the magic methods for object related calls 
- * 
+ * Contains the magic methods for object related calls
+ *
  * abstracted to a trait to maintain readability and maintainability
  */
 
-trait ObjectMagic {
+trait ObjectMagic
+{
 
     /**
      * Get an object from the mocked class, this returns a new instance of mocked
@@ -34,8 +35,7 @@ trait ObjectMagic {
      * set the value of something inside the class
      */
     public function __set($name, $value)
-    { 
+    {
         return new self(debug_backtrace(false, 1), $this->store, $this->trace);
     }
-
 }
