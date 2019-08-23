@@ -14,8 +14,12 @@ class VarStore
      */
     protected $memoized = array();
 
-    // Hold the class instance.
-    private static $instance = null;
+    /**
+     * The instance of the singleton
+     * 
+     * @var self $instance
+     */
+    private static $instance;
 
     // The constructor is private
     // to prevent initiation with outer code.
@@ -24,8 +28,12 @@ class VarStore
         // no expensive calls unless ??
     }
 
-    // The object is created from within the class itself
-    // only if the class has no instance.
+    /**
+     * Creates the singleton for the VarStore method
+     * The object is created from within the class itself
+     * only if the class has no instance.
+     * @return self
+     */
     public static function singleton()
     {
         if (self::$instance == null) {
