@@ -21,7 +21,7 @@ class MockedTest extends TestCase
         // what would be set in a class when using Mocked::class
         $mocked->name->class = 'test';
 
-        $this->assertContains('=> ["test"]', (string)$mocked->name->class);
+        $this->assertStringContainsString('=> ["test"]', (string)$mocked->name->class);
         $this->assertSame('user->name->class => ["test"]', (string)$mocked->name->class);
         $this->assertNotSame('user->name->class => ["test"]', (string)$mocked->name->class->data);
     }
