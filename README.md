@@ -69,6 +69,15 @@ $mock = new ReflectionMockery(new \ReflectionClass('\App\User'));
 
 ```
 
+### Security
+
+If you discover any security related issues, please email zsh.rce@gmail.com instead of using the issue tracker.
+
+## Credits
+
+- [ReeceM](https://github.com/ReeceM)
+- [All Contributors](../../contributors)
+
 ## todo
 
 - [ ] Add functionality to account for `$this->internal = $param;` searching so it works later on in the code
@@ -77,6 +86,14 @@ $mock = new ReflectionMockery(new \ReflectionClass('\App\User'));
 ## Support
 Consider supporting some code if it is useful to you :smile:
 
+
+- [MailEclipse](https://github.com/Qoraiche/laravel-mail-editor) "just a small donation from Laravel mail editor owner, thanks for your contributions"
+
 <p align="center">
 <a href='http://bit.ly/2J4ZPBM' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://az743702.vo.msecnd.net/cdn/kofi4.png?v=2' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
 </p>
+
+
+## License
+
+The MIT License (MIT). Please see [License File](LICENSE) for more information.
