@@ -2,6 +2,8 @@
 
 namespace ReeceM\Mocker\Traits;
 
+use Illuminate\Support\Arr;
+
 trait ArrayMagic
 {
 
@@ -22,13 +24,18 @@ trait ArrayMagic
      */
     public function offsetSet($offset, $value)
     {
+		/**
+		 * If a user pushes $mocked[] = [], the offset is null
+		 * Should push onto the previous called value
+		 */
+		if (is_null($offset)) {
+			// $memoized = $this->store->memoized;
+			// Arr::set()
+			$this->store->memoized[] = $value;
+			return $this->offsetGet($offset);
+		}
 
-        if (is_null($offset)) {
-            $this->setMockeryVariables($offset, $value);
-        } else {
-            $this->setMockeryVariables($offset, $value);
-            return $this->offsetGet($offset);
-        }
+		return new self($this->arrayTrace(), $this->store, $this->trace);
     }
 
     /**
@@ -37,13 +44,13 @@ trait ArrayMagic
      * @param mixed $offset the offset to get
      * @return self
      */
-    public function offsetGet($offset)
-    {
-
-        return isset($this->store->memoized[$offset]) ?
-            $this->store->memoized[$offset] :
-            $this->offsetSet($offset, new self($this->arrayTrace(), $this->store, $this->trace));
-    }
+	public function offsetGet($offset)
+	{
+		return new self($this->arrayTrace(), $this->store, $this->trace);
+		// return Arr::has($this->store->memoized, implode('.', $this->trace) . '.' . $offset )
+		// 	? Arr::get($this->store->memoized, implode('.', $this->trace) . '.' . $offset)
+		// 	: new self($this->arrayTrace(), $this->store, $this->trace);
+	}
 
     /**
      * checks if the key exists in the array
@@ -62,14 +69,22 @@ trait ArrayMagic
         unset($this->store->memoized[$offset]);
     }
 
-    private function arrayTrace(): array
+	/**
+	 * Back trace the calls in the array as we are getting it through two functions.
+	 *
+	 * @param int $depth how far back to go
+	 * @return array
+	 */
+    private function arrayTrace($depth = 2): array
     {
-        // one up...
-        $selfTrace = debug_backtrace(false, 2);
+		$selfTrace = debug_backtrace(false, $depth);
+		$target = ($depth - 1) >= 0 ? $depth - 1 : 0;
+
         return array([
-            'function'  => $selfTrace[1]['function'] == 'offsetGet' ? '__get' : '__set',
-            'args'      => $selfTrace[1]['args'] ?? [null],
-            'type'      => $selfTrace[1]['type'] ?? '->'
+            'function'  => $selfTrace[$target]['function'] == 'offsetGet' ? '__get' : '__set',
+            'args'      => $selfTrace[$target]['args'] ?? [null],
+			'type'      => $selfTrace[$target]['type'] ?? '->',
+			'__linking' => 'arr_mag',
         ]);
     }
 }
