@@ -75,39 +75,52 @@ class Mocked extends \ArrayObject
      */
     private function structureMockeryCalls()
     {
-        $toSet = null;
-        try {
+		try {
             $args = Arr::get($this->base[0], 'args', []); // only one if its a get command
             $function = Arr::get($this->base[0], 'function', '__get');
-            // $type = Arr::get($this->base[0], 'type', ''); '->' / '::'
-            if ($function == self::$GET_METHOD) {
-                // merge the preceding calls with this one
-                array_push($this->previous, $args[0]);
-                $this->trace = $this->previous;
-            } elseif ($function == self::$SET_METHOD) {
-                array_push($this->previous, $args[0]);
-                $this->trace = $this->previous;
-                $toSet = $args[1];
-            }
+			// $type = Arr::get($this->base[0], 'type', ''); '->' / '::'
 
-            return $this->setMockeryVariables($args[0], $toSet);
+			array_push($this->previous, $args[0]);
+			$this->trace = $this->previous;
+
+			$this->setMockeryVariables($args, $function);
         } catch (\Exception $th) {
             throw $th;
         }
     }
 
-    private function setMockeryVariables($key, $value = null)
+    private function setMockeryVariables($args, $function = null)
     {
-        $memorable = $this->store->memoized;
+		$memorable = $this->store->memoized;
 
-        $memorable[$key] = $value;
+		if ($function === self::$SET_METHOD) {
+			Arr::set($memorable, $this->resolvedBase(), $args[1]);
+		}
 
-        if ($value instanceof self) {
-            $this->store->memoized = array_merge($this->store->memoized, $memorable);
-        }
+		$this->store->memoized = $memorable;
+		// if ($value instanceof self) {
+			// $this->store->memoized = array_merge($this->store->memoized, $memorable);
+		// }
+		// Arr::set($memorable, $key, $value)
+        // $memorable[$key] = $value;
 
-        $this->store->memoized = array_merge($memorable, $this->store->memoized);
     }
+
+	/**
+	 * Get the base of the current object or array that is being queried at trace end
+	 *
+	 * @return mixed
+	 */
+	private function resolvedBase()
+	{
+		return implode('.', $this->trace);
+		// $args = Arr::get($this->base[0], 'args', []);
+		// $function = Arr::get($this->base[0], 'function', '__get');
+
+		return Arr::get($this->store->memoized, implode('.', $this->trace));
+		// ie if $mocked->d->dd->ddd; should return whats at tip of ddd, not d/mocked
+		// Arr::get()
+	}
 
     /**
      * Return a string of the called object
@@ -117,10 +130,10 @@ class Mocked extends \ArrayObject
      */
     public function __toString()
     {
-        $calledValue = $this->store->memoized[array_reverse($this->trace)[0]] ?? null;
+		$calledValue = Arr::get($this->store->memoized, implode('.', $this->trace)) ?? null;
 
-        if ($calledValue != null) {
-            return implode("->", $this->trace) . ' => ' . collect($calledValue);
+		if ($calledValue != null) {
+            return implode("->", $this->trace) . ' => ' . json_encode($calledValue);
         }
 
         return implode("->", $this->trace);
