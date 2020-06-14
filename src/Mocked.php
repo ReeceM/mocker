@@ -3,6 +3,7 @@
 namespace ReeceM\Mocker;
 
 use Illuminate\Support\Arr;
+use ReeceM\Mocker\Exceptions\VarStoreMissingException;
 use ReeceM\Mocker\Utils\VarStore;
 use ReeceM\Mocker\Traits\ArrayMagic;
 use ReeceM\Mocker\Traits\ObjectMagic;
@@ -63,6 +64,10 @@ class Mocked extends \ArrayObject
         $this->previous = $previous;
         $this->store    = $store;
 		$this->base     = $base;
+
+		if (is_null($store)) {
+			throw new VarStoreMissingException();
+		}
 
         if (is_string($base)) {
 			$this->base     = [['args' => [$base], 'function' => static::$GET_METHOD]];
