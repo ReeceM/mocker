@@ -12,11 +12,18 @@ class VarStore
      * The memorised list of args
      * @var array $memoized
      */
-    protected $memoized = array();
+	protected $memoized = array();
+
+	/**
+	 * The base Mocker value
+	 *
+	 * @var \ReeceM\Mocker\Mocked $mocked
+	 */
+	protected $mocked;
 
     /**
      * The instance of the singleton
-     * 
+     *
      * @var self $instance
      */
     private static $instance;

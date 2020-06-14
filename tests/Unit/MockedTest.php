@@ -21,9 +21,9 @@ class MockedTest extends TestCase
         // what would be set in a class when using Mocked::class
         $mocked->name->class = 'test';
 
-        $this->assertStringContainsString('=> ["test"]', (string)$mocked->name->class);
-        $this->assertSame('user->name->class => ["test"]', (string)$mocked->name->class);
-        $this->assertNotSame('user->name->class => ["test"]', (string)$mocked->name->class->data);
+        $this->assertStringContainsString('=> "test"', (string)$mocked->name->class);
+        $this->assertSame('user->name->class => "test"', (string)$mocked->name->class);
+        $this->assertNotSame('user->name->class => "test"', (string)$mocked->name->class->data);
     }
     /**
      * Test if the un-set mocked returns the calls chained
@@ -52,14 +52,31 @@ class MockedTest extends TestCase
         VarStore::destroy();
         $mocked = new Mocked('arrays', VarStore::singleton());
 
-        $mocked['variable']['on']['an_array'] = ['new' => 'array'];
+		$mocked['variable']['on']['an_array'] = ['new' => 'array'];
 
-        $this->assertIsArray($mocked['variable']['on']['an_array']);
-        $this->assertArrayHasKey('variable', $mocked);
+		$this->assertIsArray($mocked['variable']['on']['an_array']);
+        $this->assertArrayHasKey('variable', $mocked->__getStore()['arrays']);
         $this->assertArrayHasKey('on', $mocked['variable']);
-        $this->assertArrayHasKey('an_array', $mocked['variable']['on']);
-        $this->assertArrayHasKey('key_was_not_entered', $mocked['key_was_not_entered']);
+		$this->assertArrayHasKey('an_array', $mocked['variable']['on']);
 
+        $this->assertArrayHasKey('key_was_not_entered', $mocked['key_was_not_entered']);
+	}
+
+    /**
+     * The values are not copied between areas
+	 *
+     * @test
+     * @return void
+     */
+    public function mocked_does_not_cross_pollute_values_test()
+    {
+        // give us a clean store;
+        VarStore::destroy();
+        $mocked = new Mocked('content_test', VarStore::singleton());
+
+		$mocked['variable']['on']['an_']['array'] = 'to be or not to be';
+        $mocked->value->does->not->duplicate = 'maybe';
+        $this->assertNotSame($mocked->value->does->not->duplicate, $mocked['variable']['on']['an_']['array']);
     }
 
     /**

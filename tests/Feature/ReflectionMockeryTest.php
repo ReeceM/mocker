@@ -21,7 +21,7 @@ class ReflectionMockeryTest extends TestCase
         $instance = $class->newInstanceArgs($mock->all());
         // run the invoke function to use the instantiated data
         // the result is a collection instance
-        $this->assertSame('data->complex->var->that->is->set->too => ["Hello World"]', $instance());
+        $this->assertSame('data->complex->var->that->is->set->too => "Hello World"', $instance());
     }
     /**
      * A basic test example.
@@ -36,7 +36,7 @@ class ReflectionMockeryTest extends TestCase
 
         $instance = $class->newInstanceArgs($mock->all());
         // run the invoke function to use the instantiated data
-        $this->assertSame('data->complex->var->that->is->set->too => ["Hello World"]', $instance());
+        $this->assertSame('data->complex->var->that->is->set->too => "Hello World"', $instance());
     }
     /**
      * A basic test example.
@@ -46,7 +46,7 @@ class ReflectionMockeryTest extends TestCase
     public function reflection_gives_magic_get_test()
     {
         $mock = new ReflectionMockery('Tests\ClassOfTest');
-        
+
         $this->assertInstanceOf(\ReeceM\Mocker\Mocked::class, $mock->data);
         $this->assertInstanceOf(\ReeceM\Mocker\Mocked::class, $mock->get('data'));
         $this->assertInstanceOf(\ReeceM\Mocker\Mocked::class, $mock->user);
@@ -60,15 +60,15 @@ class ReflectionMockeryTest extends TestCase
      */
     public function reflection_fails_on_wrong_data_test()
     {
-        try { 
+        try {
             $mocked = new ReflectionMockery(new \Exception('Nope'));
         } catch (\Exception $e) {
             $this->assertTrue(true);
-        } 
-        try { 
+        }
+        try {
             $mocked = new ReflectionMockery('');
         } catch (\Exception $e) {
             $this->assertTrue(true);
-        } 
+        }
     }
 }
