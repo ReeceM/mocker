@@ -10,7 +10,7 @@
         "orchestra/testbench": "^3.5|^4.0"
     },
     "keywords": [
-        "laravel", "mockery", "helper", "testing"
+        "laravel", "mockery", "helper", "testing", "mocker", "reecem"
     ],
     "license": "MIT",
     "authors": [

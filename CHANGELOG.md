@@ -6,6 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+- [] add object get requests return value
+- [] improve logical storage of data.
+- [] Wrap results in Mocked instance
+
+## [1.1.4] - 14.06.20
+### Fixed
+- Variables are no longer polluted between variable calls. [#6](https://github.com/reecem/mocker/issues/6)
+- When calling an object that has an array assigned it will return whole the array as a string, see for more [#5](https://github.com/reecem/mocker/issues/5)
+
+- See pull request [#15](https://github.com/ReeceM/mocker/pull/15)
+
+### Note
+There is a slight bug introduced with this version as to the fact that the arrays returned after the first step are arrays and not instances of Mocked. Cannot assign values after assigning the first time.
 
 ## [1.1.3] - 09.03.20
 ### Added
@@ -41,7 +54,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 First release of Mocker - [Initial Release](https://github.com/ReeceM/mocker/releases/tag/v1.0)
 
 
-[Unreleased]: https://github.com/ReeceM/mocker/compare/v1.1.3...HEAD
+[Unreleased]: https://github.com/ReeceM/mocker/compare/v1.1.4...HEAD
+[1.1.4]: https://github.com/ReeceM/mocker/compare/v1.1.3...v1.1.4
 [1.1.3]: https://github.com/ReeceM/mocker/compare/v1.1.2...v1.1.3
 [1.1.2]: https://github.com/ReeceM/mocker/compare/v1.1.1...v1.1.2
 [1.1.1]: https://github.com/ReeceM/mocker/compare/v1.1.0...v1.1.1
