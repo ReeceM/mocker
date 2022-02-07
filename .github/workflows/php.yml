@@ -16,7 +16,7 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest]
         php: [8.0, 7.4]
-        laravel: [8.*]
+        laravel: [9.*, 8.*]
         stability: [prefer-lowest, prefer-stable]
         include:
           - laravel: 8.*
@@ -46,13 +46,13 @@ jobs:
         run: |
           composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
           composer update --${{ matrix.stability }} --prefer-dist --no-interaction
-        if: matrix.php >= 8 && matrix.laravel < 9
+        if: matrix.laravel < 9
 
       - name: Install dependencies
         run: |
           composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
           composer update --${{ matrix.stability }} --prefer-dist --no-interaction
-        if: matrix.php >= 8 && matrix.laravel >= 9
+        if: matrix.laravel >= 9 && matrix.php >= 8
 
       - name: Execute tests
         run: vendor/bin/phpunit
