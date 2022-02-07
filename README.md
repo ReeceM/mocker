@@ -97,3 +97,17 @@ Consider supporting some code if it is useful to you :smile:
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE) for more information.
+
+## Sponsors
+
+<table>
+  <tbody>
+    <tr>
+          <td align="center" valign="middle">
+            <a href="https://www.jetbrains.com/?from=maileclipse" target="_blank">
+              <img width="222px" src="https://user-images.githubusercontent.com/15586492/96636404-2c18dd00-1315-11eb-9520-736dffaaf0a7.png">
+            </a>
+          </td>
+        </tr>
+  </tbody>
+</table>
