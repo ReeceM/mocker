@@ -1,5 +1,4 @@
 name: PHP Tests
-
 on:
   push:
     branches: [ master ]
