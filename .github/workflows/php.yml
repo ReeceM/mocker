@@ -45,13 +45,13 @@ jobs:
         run: |
           composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
           composer update --${{ matrix.stability }} --prefer-dist --no-interaction
-        if: matrix.laravel < 9
+        if: matrix.laravel < 9.*
 
       - name: Install dependencies
         run: |
           composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
           composer update --${{ matrix.stability }} --prefer-dist --no-interaction
-        if: matrix.laravel >= 9 && matrix.php >= 8
+        if: matrix.laravel >= 9.* && matrix.php >= 8
 
       - name: Execute tests
         run: vendor/bin/phpunit || echo "Test Skipped"
